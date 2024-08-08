@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<HTML lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Deposit</title>
+    </head>
+    <body>
+        <h1>Deposit into an account</h1>
+        <form>
+            <label for="account_num">Account number: </label>
+            <input type="text" id="account_num" name="account_num"/><br/>
+
+            <label for="amount">Deposit amount: </label>
+            <input type="text" id="amount" name="amount"/><br/>
+
+            <label for="notes">Notes: </label>
+            <textarea id="notes" name="notes" cols="32" rows="5"></textarea><br/>
+
+            <input type="button" value="Deposit" onclick="make_request()"/>
+        </form>
+
+        <div id="result"></div>
+
+        <script type="text/javascript" crossorigin="use-credentials">
+        function make_request() {
+            let request = new XMLHttpRequest()
+
+            request.onreadystatechange = function () {
+                if (request.readyState === XMLHttpRequest.DONE) { // XMLHttpRequest.DONE == 4
+                    let jsonResponse = JSON.parse(request.responseText)
+                    let text
+                    if (request.status === 200) {
+                        text = "<p><b>Account number:</b> " + jsonResponse.account_num + "</p>"
+                        text += "<p><b>Owner:</b> " + jsonResponse.owner_name +"</p>"
+                        text += "<p><b>Balance:</b> " + jsonResponse.balance + "</p>"
+                        text += "<p><b>Notes:</b> " + jsonResponse.notes + "</p>"
+                    }
+                    else {
+                        text = "<p><span style='color: darkred;'>Error!</span> " + jsonResponse.error
+                    }
+                    document.getElementById("result").innerHTML = text
+                }
+            }
+            let acct_num = document.getElementById("account_num").value
+            let amount = document.getElementById("amount").value
+            let notes = document.getElementById("notes").value
+            let params = "account_num="+acct_num+"&amount="+amount+"&notes="+notes
+            request.open("POST", "/deposit", true)
+            request.send(params)
+
+        }
+
+    </script>
+    </body>
+</HTML>
+

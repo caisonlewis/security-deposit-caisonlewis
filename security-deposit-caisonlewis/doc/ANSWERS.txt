@@ -1,0 +1,33 @@
+1) Which two broad categories of vulnerabilities are discovered by Bandit?
+
+    a) SQL injection attack vectors
+
+    b) hardcoded vulnerabilities
+
+
+2.a) Which HTML form in the webapp is vulnerable to SQL injection other than the Deposit and Withdrawal forms?
+    try 'account_num' or 'amount'
+
+    ** the account_num is succptible at points of user input in the methods used in server.py **
+
+2.b) Justify your answer, either by explaining where in bank.py and/or server.py the code is vulnerable, or by providing
+sample SQL-injected input that successfully manipulated the database using the vulnerable form field.
+
+** Each collection of user input within the methods in server.py do not strip the string of inputted data that would
+   otherwise protect against XSS and SQL injection **
+
+
+3) In do_get_account_info, change the line
+    return http_responses.OK(html_data)
+   to
+    return http_responses.OK(bleach.clean(html)).
+   Restart the server and look up account info using the "Get account details" page.
+   Why does the page look this way?
+
+  ** the html is being stripped and the application is left with nothing to return to the client **
+
+
+4) What sensitive information can an attacker discover about our system through
+the error messages, and how could they accomplish this?
+
+** the attacker can gain insight as to how the internal framework of your code operates **

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<HTML lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Withdraw</title>
+    </head>
+    <body>
+        <h1>Withdraw from an account</h1>
+        <form action="/withdraw" method="POST" onsubmit="return do_confirm()">
+            <label for="account_num">Account number: </label>
+            <input type="text" id="account_num" name="account_num"/><br/>
+
+            <label for="amount">Withdrawal amount: </label>
+            <input type="text" id="amount" name="amount"/><br/>
+
+            <label for="notes">Notes: </label><br/>
+            <textarea id="notes" name="notes" cols="32" rows="5"></textarea>
+
+            <input type="submit" value="Withdraw"/><br/>
+        </form>
+    <script type="text/javascript">
+        function do_confirm() {
+            // doc is a reference to the current HTML doc.
+            // Below, grab the account number..
+            let acct_num = document.getElementById("account_num").value;
+            // Grab the amount..
+            let amt = document.getElementById("amount").value;
+            // Create the msg str.
+            let text = "Are you sure you want to withdraw $" + amt + " from " + acct_num + "?";
+            // confirm() returns true if user clicks ok, false otherwise.
+            return confirm(text);
+        }
+    </script>
+    </body>
+</HTML>
